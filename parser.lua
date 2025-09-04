@@ -1,4 +1,6 @@
-local function parseAnimals()
+local Parser = {}
+
+function Parser.parseAnimals()
     local animals = {}
 
     for _, plot in ipairs(workspace.Plots:GetChildren()) do
@@ -31,3 +33,5 @@ local function parseAnimals()
 
     return animals
 end
+
+return Parser
