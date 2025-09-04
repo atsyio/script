@@ -13,36 +13,32 @@ function Parser.parseAnimals()
 
     for _, plot in ipairs(workspace.Plots:GetChildren()) do
         local animalPodiums = plot:FindFirstChild("AnimalPodiums")
-        if not animalPodiums then goto continuePlot end
+        if animalPodiums then
+            for _, podium in ipairs(animalPodiums:GetChildren()) do
+                local podiumBase = podium:FindFirstChild("Base")
+                if podiumBase then
+                    local spawnPoint = podiumBase:FindFirstChild("Spawn")
+                    if spawnPoint then
+                        local attachment = spawnPoint:FindFirstChild("Attachment")
+                        if attachment then
+                            local overheadInfo = attachment:FindFirstChild("AnimalOverhead")
+                            if overheadInfo then
+                                local animal = {
+                                    Name        = overheadInfo:FindFirstChild("DisplayName")    and overheadInfo.DisplayName.Text                       or "Unknown",
+                                    Generation  = overheadInfo:FindFirstChild("Generation")     and Parser.parseIncome(overheadInfo.Generation.Text)    or 0,
+                                    Rarity      = overheadInfo:FindFirstChild("Rarity")         and overheadInfo.Rarity.Text                            or "Common",
+                                    Stolen      = overheadInfo:FindFirstChild("Stolen")         and overheadInfo.Stolen.Visible                         or false,
+                                    Stand       = podiumBase:FindFirstChild("Decorations")      and podiumBase.Decorations                              or nil,
+                                    Podium      = podium
+                                }
 
-        for _, podium in ipairs(animalPodiums:GetChildren()) do
-            local podiumBase = podium:FindFirstChild("Base")
-            if not podiumBase then goto continuePodium end
-
-            local spawnPoint = podiumBase:FindFirstChild("Spawn")
-            if not spawnPoint then goto continuePodium end
-
-            local attachment = spawnPoint:FindFirstChild("Attachment")
-            if not attachment then goto continuePodium end
-
-            local overheadInfo = attachment:FindFirstChild("AnimalOverhead")
-            if not overheadInfo then goto continuePodium end
-
-            local animal = {
-                Name       = overheadInfo:FindFirstChild("DisplayName") and overheadInfo.DisplayName.Text or "Unknown",
-                Generation = overheadInfo:FindFirstChild("Generation") and Parser.parseIncome(overheadInfo.Generation.Text) or 0,
-                Rarity     = overheadInfo:FindFirstChild("Rarity") and overheadInfo.Rarity.Text or "Common",
-                Stolen     = overheadInfo:FindFirstChild("Stolen") and overheadInfo.Stolen.Visible or false,
-                Stand      = podiumBase:FindFirstChild("Decorations") or nil,
-                Podium     = podium
-            }
-
-            table.insert(animals, animal)
-
-            ::continuePodium::
+                                table.insert(animals, animal)
+                            end
+                        end
+                    end
+                end
+            end
         end
-
-        ::continuePlot::
     end
 
     return animals
