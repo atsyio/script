@@ -1,6 +1,6 @@
-local Math = {}
+local Utils = {}
 
-function Math.maxBy(list, fn)
+function Utils.maxBy(list, fn)
     local bestEntry = nil
     local bestValue = -math.huge
     for _, entry in ipairs(list) do
@@ -14,4 +14,4 @@ function Math.maxBy(list, fn)
 end
 
 
-return Math
+return Utils
