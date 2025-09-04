@@ -5,5 +5,5 @@ local parser = require("parser")
 
 local animals = parser.parseAnimals()
 for _, animal in ipairs(animals) do
-    print(animal.Name, animal.Generation, animal.Rarity, animal.Stolen)
+    print(animal.Name, animal.Income, animal.Rarity, animal.Stolen)
 end

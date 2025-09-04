@@ -25,7 +25,8 @@ function Parser.parseAnimals()
                             if overheadInfo then
                                 local animal = {
                                     Name        = overheadInfo:FindFirstChild("DisplayName")    and overheadInfo.DisplayName.Text                       or "Unknown",
-                                    Generation  = overheadInfo:FindFirstChild("Generation")     and Parser.parseIncome(overheadInfo.Generation.Text)    or 0,
+                                    Income      = overheadInfo:FindFirstChild("Generation")     and Parser.parseIncome(overheadInfo.Generation.Text)    or 0,
+                                    Generation  = overheadInfo:FindFirstChild("Generation")     and overheadInfo.Generation.Text                        or "$0/s",
                                     Rarity      = overheadInfo:FindFirstChild("Rarity")         and overheadInfo.Rarity.Text                            or "Common",
                                     Stolen      = overheadInfo:FindFirstChild("Stolen")         and overheadInfo.Stolen.Visible                         or false,
                                     Stand       = podiumBase:FindFirstChild("Decorations")      and podiumBase.Decorations                              or nil,
