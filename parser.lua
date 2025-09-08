@@ -8,6 +8,23 @@ function Parser.parseIncome(str)
     return tonumber(num) * (multipliers[suffix] or 1)
 end
 
+function Parser.parseBase()
+    for _, plot in ipairs(workspace.Plots:GetChildren()) do
+        local plotSign = plot:FindFirstChild("PlotSign")
+        local yourBase = plotSign:FindFirstChild("YourBase")
+        if yourBase then
+            local textLabel = yourBase:FindFirstChild("TextLabel")
+            if textLabel then
+                if yourBase.Enabled then
+                    return plot.Name
+                end
+            end
+        end
+    end
+
+    return ""
+end
+
 function Parser.parseAnimals()
     local animals = {}
 
