@@ -28,6 +28,7 @@ function Inventory.selectSlot(input)
 end
 
 function Inventory.getCurrentSlot()
+    local player = game.Players.LocalPlayer
     local char = player.Character or player.CharacterAdded:Wait()
     local backpack = player:WaitForChild("Backpack")
 
