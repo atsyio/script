@@ -90,7 +90,7 @@ function Parser.parseCurrentBase()
         local stealHitbox = plot:FindFirstChild("StealHitbox")
         if stealHitbox and Parser.isInside(stealHitbox, root.Position) then
             return {
-                UUID = plot.Name
+                UUID = plot.Name,
                 Plot = plot
             }
         end
@@ -130,7 +130,7 @@ function Parser.parseNearestPodium(plot)
     if not nearestPodium then return nil end
 
     return {
-        Id = nearestPodium.Name
+        Id = nearestPodium.Name,
         Podium = nearestPodium
     }
 end
