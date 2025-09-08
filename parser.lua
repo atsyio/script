@@ -1,5 +1,16 @@
 local Parser = {}
 
+local Players = game:GetService("Players")
+
+function Parser.isInside(part, point)
+    if not part or not point then return false end
+    local relativePos = part.CFrame:PointToObjectSpace(point)
+    local size = part.Size / 2
+    return math.abs(relativePos.X) <= size.X
+       and math.abs(relativePos.Y) <= size.Y
+       and math.abs(relativePos.Z) <= size.Z
+end
+
 function Parser.parseIncome(str)
     local num, suffix = str:match("%$(%d+%.?%d*)([KMBT]?)%/s")
     if not num then return nil end
@@ -67,6 +78,50 @@ function Parser.parseAnimals(exclude)
     end
 
     return animals
+end
+
+function Parser.parseCurrentBase()
+    local player = Players.LocalPlayer
+    local char = player.Character or player.CharacterAdded:Wait()
+    local root = char:FindFirstChild("HumanoidRootPart")
+    if not root then return nil end
+
+    for _, plot in ipairs(workspace.Plots:GetChildren()) do
+        local stealHitbox = plot:FindFirstChild("StealHitbox")
+        if stealHitbox and Parser.isInside(stealHitbox, root.Position) then
+            return plot
+        end
+    end
+
+    return nil
+end
+
+function Parser.parseNearestPodium(plot)
+    if not plot then return nil end
+    
+    local player = Players.LocalPlayer
+    local char = player.Character or player.CharacterAdded:Wait()
+    local root = char:FindFirstChild("HumanoidRootPart")
+    if not root then return nil end
+
+    local animalPodiums = plot:FindFirstChild("AnimalPodiums")
+    if not animalPodiums then return nil end
+
+    local nearestPodium = nil
+    local nearestDist = math.huge
+
+    for _, podium in ipairs(animalPodiums:GetChildren()) do
+        local podiumBase = podium:FindFirstChild("Base")
+        if podiumBase then
+            local dist = (root.Position - podiumBase.Position).Magnitude
+            if dist < nearestDist then
+                nearestDist = dist
+                nearestPodium = podium
+            end
+        end
+    end
+
+    return nearestPodium
 end
 
 return Parser
