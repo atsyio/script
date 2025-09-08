@@ -130,7 +130,7 @@ function Parser.parseNearestPodium(plot)
     if not nearestPodium then return nil end
 
     return {
-        Id = nearestPodium.Name,
+        Id = tonumber(nearestPodium.Name),
         Podium = nearestPodium
     }
 end
