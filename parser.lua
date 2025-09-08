@@ -113,10 +113,13 @@ function Parser.parseNearestPodium(plot)
     for _, podium in ipairs(animalPodiums:GetChildren()) do
         local podiumBase = podium:FindFirstChild("Base")
         if podiumBase then
-            local dist = (root.Position - podiumBase.Position).Magnitude
-            if dist < nearestDist then
-                nearestDist = dist
-                nearestPodium = podium
+            local spawn = podiumBase:FindFirstChild("Spawn")
+            if spawn then
+                local dist = (root.Position - spawn.Position).Magnitude
+                if dist < nearestDist then
+                    nearestDist = dist
+                    nearestPodium = podium
+                end
             end
         end
     end
