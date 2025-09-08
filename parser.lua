@@ -16,13 +16,18 @@ function Parser.parseBase()
             local textLabel = yourBase:FindFirstChild("TextLabel")
             if textLabel then
                 if yourBase.Enabled then
-                    return plot.Name
+                    local base = {
+                        Part = plot,
+                        UUID = plot.Name
+                    }
+
+                    return base
                 end
             end
         end
     end
 
-    return ""
+    return nil
 end
 
 function Parser.parseAnimals(exclude)
